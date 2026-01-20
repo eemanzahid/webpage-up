@@ -1,0 +1,1168 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Al-Kawthar Event Management Society - University Event Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Merriweather:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .font-heading {
+      font-family: 'Merriweather', serif;
+    }
+    
+    .font-body {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .page-section {
+      display: none;
+      opacity: 0;
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    
+    .page-section.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .event-card {
+      transition: all 0.3s ease;
+      border: 1px solid rgba(197, 151, 51, 0.2);
+    }
+    
+    .event-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(197, 151, 51, 0.15);
+    }
+    
+    .nav-link {
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #C59733;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #C59733 0%, #D4A850 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(197, 151, 51, 0.3);
+    }
+    
+    .masonry-grid {
+      column-count: 3;
+      column-gap: 1.5rem;
+    }
+    
+    .masonry-item {
+      break-inside: avoid;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    
+    .masonry-item img {
+      width: 100%;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    
+    .masonry-item:hover img {
+      transform: scale(1.1);
+    }
+    
+    .masonry-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(13, 35, 71, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .masonry-item:hover .masonry-overlay {
+      opacity: 1;
+    }
+    
+    .qr-code {
+      width: 280px;
+      height: 280px;
+      background: white;
+      border: 8px solid #C59733;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+    }
+    
+    .chart-bar {
+      transition: all 0.3s ease;
+    }
+    
+    .chart-bar:hover {
+      opacity: 0.8;
+    }
+    
+    @media (max-width: 768px) {
+      .masonry-grid {
+        column-count: 2;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .masonry-grid {
+        column-count: 1;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-body" style="background: #F8F9FA;">
+  <div id="app-wrapper" class="w-full h-full overflow-auto"><!-- Navigation -->
+   <nav class="sticky top-0 z-50 shadow-md" style="background: #0D2347;">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+     <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+       <svg class="w-10 h-10" viewbox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#C59733" /> <path d="M20 10L12 16V30H18V24H22V30H28V16L20 10Z" fill="#0D2347" />
+       </svg>
+       <div>
+        <h1 id="site-name" class="text-xl font-bold" style="color: #FFFFFF;">Al-Kawthar Event Management Society</h1>
+        <p class="text-xs" style="color: #C59733;">University Event Society</p>
+       </div>
+      </div>
+      <div class="hidden md:flex items-center gap-8"><a href="#" class="nav-link text-sm font-medium" style="color: #FFFFFF;" data-page="home">Home</a> <a href="#" class="nav-link text-sm font-medium" style="color: #FFFFFF;" data-page="events">Events</a> <a href="#" class="nav-link text-sm font-medium" style="color: #FFFFFF;" data-page="dashboard">Dashboard</a> <a href="#" class="nav-link text-sm font-medium" style="color: #FFFFFF;" data-page="admin">Admin</a> <a href="#" class="nav-link text-sm font-medium" style="color: #FFFFFF;" data-page="archive">Archive</a> <a href="#" class="nav-link text-sm font-medium" style="color: #FFFFFF;" data-page="about">About Us</a> <a href="#" class="nav-link text-sm font-medium" style="color: #FFFFFF;" data-page="contact">Contact</a> <a href="#" class="nav-link text-sm font-medium" style="color: #FFFFFF;" data-page="mobile">QR Check-in</a>
+      </div><button id="mobile-menu-toggle" class="md:hidden p-2" style="color: #C59733;" aria-label="Menu">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+       </svg></button>
+     </div><!-- Mobile Menu -->
+     <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t" style="border-color: rgba(197, 151, 51, 0.3);">
+      <div class="flex flex-col gap-3 pt-4"><a href="#" class="nav-link block px-4 py-3 rounded-lg font-medium transition-all" style="color: #FFFFFF; background: rgba(197, 151, 51, 0.1);" data-page="home">Home</a> <a href="#" class="nav-link block px-4 py-3 rounded-lg font-medium transition-all" style="color: #FFFFFF;" data-page="events">Events</a> <a href="#" class="nav-link block px-4 py-3 rounded-lg font-medium transition-all" style="color: #FFFFFF;" data-page="dashboard">Dashboard</a> <a href="#" class="nav-link block px-4 py-3 rounded-lg font-medium transition-all" style="color: #FFFFFF;" data-page="admin">Admin</a> <a href="#" class="nav-link block px-4 py-3 rounded-lg font-medium transition-all" style="color: #FFFFFF;" data-page="archive">Archive</a> <a href="#" class="nav-link block px-4 py-3 rounded-lg font-medium transition-all" style="color: #FFFFFF;" data-page="about">About Us</a> <a href="#" class="nav-link block px-4 py-3 rounded-lg font-medium transition-all" style="color: #FFFFFF;" data-page="contact">Contact</a> <a href="#" class="nav-link block px-4 py-3 rounded-lg font-medium transition-all" style="color: #FFFFFF;" data-page="mobile">QR Check-in</a>
+      </div>
+     </div>
+    </div>
+   </nav><!-- Page 1: Hero Landing Page -->
+   <section id="home" class="page-section active"><!-- Hero Banner -->
+    <div class="relative min-h-screen flex items-center justify-center" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);"><!-- Decorative Elements -->
+     <div class="absolute inset-0 overflow-hidden opacity-10">
+      <svg class="absolute top-20 left-10 w-64 h-64" viewbox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="#C59733" />
+      </svg>
+      <svg class="absolute bottom-20 right-10 w-96 h-96" viewbox="0 0 200 200"><rect x="50" y="50" width="100" height="100" fill="#C59733" transform="rotate(45 100 100)" />
+      </svg>
+     </div>
+     <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+      <div class="mb-6"><span class="inline-block px-4 py-2 rounded-full text-sm font-semibold" style="background: rgba(197, 151, 51, 0.2); color: #C59733;"> University Event Management Platform </span>
+      </div>
+      <h1 id="hero-headline" class="font-heading text-5xl md:text-7xl font-bold mb-6" style="color: #FFFFFF;">Uniting Societies, Creating Memories</h1>
+      <p id="hero-subheadline" class="text-xl md:text-2xl mb-12" style="color: rgba(255, 255, 255, 0.8);">Discover, register, and manage all campus events in one place</p><!-- Search Bar -->
+      <div class="max-w-3xl mx-auto mb-8">
+       <div class="flex flex-col md:flex-row gap-4 p-2 rounded-2xl shadow-2xl" style="background: #FFFFFF;">
+        <div class="flex-1"><label for="society-search" class="sr-only">Search by Society Name</label> <input id="society-search" type="text" placeholder="Search by Society Name" class="w-full px-6 py-4 rounded-xl border-0 focus:outline-none focus:ring-2" style="background: #F8F9FA; --tw-ring-color: #C59733;">
+        </div>
+        <div class="flex-1"><label for="date-search" class="sr-only">Search by Date</label> <input id="date-search" type="date" class="w-full px-6 py-4 rounded-xl border-0 focus:outline-none focus:ring-2" style="background: #F8F9FA; --tw-ring-color: #C59733;">
+        </div><button class="btn-primary px-8 py-4 rounded-xl font-semibold" style="color: #0D2347;"> Search Events </button>
+       </div>
+      </div><!-- Quick Stats -->
+      <div class="grid grid-cols-3 gap-8 max-w-3xl mx-auto mt-16 pt-12 border-t" style="border-color: rgba(197, 151, 51, 0.3);">
+       <div>
+        <p class="text-4xl font-bold mb-2" style="color: #C59733;">50+</p>
+        <p class="text-sm" style="color: rgba(255, 255, 255, 0.7);">Active Societies</p>
+       </div>
+       <div>
+        <p class="text-4xl font-bold mb-2" style="color: #C59733;">200+</p>
+        <p class="text-sm" style="color: rgba(255, 255, 255, 0.7);">Events This Year</p>
+       </div>
+       <div>
+        <p class="text-4xl font-bold mb-2" style="color: #C59733;">5000+</p>
+        <p class="text-sm" style="color: rgba(255, 255, 255, 0.7);">Active Students</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Page 2: Multi-Society Event Grid -->
+   <section id="events" class="page-section py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+     <div class="text-center mb-12">
+      <h2 class="font-heading text-4xl md:text-5xl font-bold mb-4" style="color: #0D2347;">Upcoming Events</h2>
+      <p class="text-lg" style="color: #6B7280;">Register for exciting campus activities and workshops</p>
+     </div>
+     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Event Card 1 -->
+      <div class="event-card rounded-2xl overflow-hidden" style="background: #FFFFFF;">
+       <div class="h-48 flex items-center justify-center" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+        <svg class="w-24 h-24" viewbox="0 0 100 100" fill="none"><rect x="20" y="30" width="60" height="50" rx="4" stroke="#C59733" stroke-width="3" /> <path d="M35 30V20M65 30V20M20 45H80" stroke="#C59733" stroke-width="3" /> <circle cx="40" cy="60" r="3" fill="#C59733" /> <circle cx="60" cy="60" r="3" fill="#C59733" />
+        </svg>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center gap-2 mb-3"><span class="text-xs px-3 py-1 rounded-full font-semibold" style="background: rgba(197, 151, 51, 0.1); color: #C59733;">Tech Society</span>
+        </div>
+        <h3 class="font-heading text-xl font-bold mb-3" style="color: #0D2347;">Full-Stack Coding Bootcamp</h3>
+        <div class="space-y-2 mb-4 text-sm" style="color: #6B7280;">
+         <div class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" />
+          </svg><span>December 15, 2024</span>
+         </div>
+         <div class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" />
+          </svg><span>Computer Lab A-Block</span>
+         </div>
+        </div><button id="cta-button-1" class="btn-primary w-full py-3 rounded-xl font-semibold" style="color: #0D2347;"> Register Now </button>
+       </div>
+      </div><!-- Event Card 2 -->
+      <div class="event-card rounded-2xl overflow-hidden" style="background: #FFFFFF;">
+       <div class="h-48 flex items-center justify-center" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+        <svg class="w-24 h-24" viewbox="0 0 100 100" fill="none"><path d="M30 70L50 30L70 70H30Z" stroke="#C59733" stroke-width="3" /> <circle cx="50" cy="40" r="5" fill="#C59733" /> <path d="M40 60H60" stroke="#C59733" stroke-width="3" />
+        </svg>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center gap-2 mb-3"><span class="text-xs px-3 py-1 rounded-full font-semibold" style="background: rgba(197, 151, 51, 0.1); color: #C59733;">Art Society</span>
+        </div>
+        <h3 class="font-heading text-xl font-bold mb-3" style="color: #0D2347;">Annual Art Gala &amp; Exhibition</h3>
+        <div class="space-y-2 mb-4 text-sm" style="color: #6B7280;">
+         <div class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" />
+          </svg><span>December 20, 2024</span>
+         </div>
+         <div class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" />
+          </svg><span>Main Auditorium</span>
+         </div>
+        </div><button class="btn-primary w-full py-3 rounded-xl font-semibold" style="color: #0D2347;"> Register Now </button>
+       </div>
+      </div><!-- Event Card 3 -->
+      <div class="event-card rounded-2xl overflow-hidden" style="background: #FFFFFF;">
+       <div class="h-48 flex items-center justify-center" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+        <svg class="w-24 h-24" viewbox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="30" stroke="#C59733" stroke-width="3" /> <path d="M50 30V50L65 60" stroke="#C59733" stroke-width="3" stroke-linecap="round" />
+        </svg>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center gap-2 mb-3"><span class="text-xs px-3 py-1 rounded-full font-semibold" style="background: rgba(197, 151, 51, 0.1); color: #C59733;">Business Society</span>
+        </div>
+        <h3 class="font-heading text-xl font-bold mb-3" style="color: #0D2347;">Entrepreneurship Summit 2024</h3>
+        <div class="space-y-2 mb-4 text-sm" style="color: #6B7280;">
+         <div class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" />
+          </svg><span>January 5, 2025</span>
+         </div>
+         <div class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" />
+          </svg><span>Conference Hall B</span>
+         </div>
+        </div><button class="btn-primary w-full py-3 rounded-xl font-semibold" style="color: #0D2347;"> Register Now </button>
+       </div>
+      </div><!-- Event Card 4 -->
+      <div class="event-card rounded-2xl overflow-hidden" style="background: #FFFFFF;">
+       <div class="h-48 flex items-center justify-center" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+        <svg class="w-24 h-24" viewbox="0 0 100 100" fill="none"><path d="M50 20L30 40L50 60L70 40L50 20Z" stroke="#C59733" stroke-width="3" /> <circle cx="50" cy="75" r="8" stroke="#C59733" stroke-width="3" />
+        </svg>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center gap-2 mb-3"><span class="text-xs px-3 py-1 rounded-full font-semibold" style="background: rgba(197, 151, 51, 0.1); color: #C59733;">Music Society</span>
+        </div>
+        <h3 class="font-heading text-xl font-bold mb-3" style="color: #0D2347;">Battle of the Bands 2024</h3>
+        <div class="space-y-2 mb-4 text-sm" style="color: #6B7280;">
+         <div class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" />
+          </svg><span>December 18, 2024</span>
+         </div>
+         <div class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" />
+          </svg><span>Open Air Theater</span>
+         </div>
+        </div><button class="btn-primary w-full py-3 rounded-xl font-semibold" style="color: #0D2347;"> Register Now </button>
+       </div>
+      </div><!-- Event Card 5 -->
+      <div class="event-card rounded-2xl overflow-hidden" style="background: #FFFFFF;">
+       <div class="h-48 flex items-center justify-center" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+        <svg class="w-24 h-24" viewbox="0 0 100 100" fill="none"><rect x="25" y="35" width="50" height="40" rx="4" stroke="#C59733" stroke-width="3" /> <circle cx="40" cy="52" r="5" stroke="#C59733" stroke-width="2" /> <circle cx="60" cy="52" r="5" stroke="#C59733" stroke-width="2" /> <path d="M40 65Q50 70 60 65" stroke="#C59733" stroke-width="2" fill="none" />
+        </svg>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center gap-2 mb-3"><span class="text-xs px-3 py-1 rounded-full font-semibold" style="background: rgba(197, 151, 51, 0.1); color: #C59733;">Drama Society</span>
+        </div>
+        <h3 class="font-heading text-xl font-bold mb-3" style="color: #0D2347;">Shakespeare Night: Hamlet</h3>
+        <div class="space-y-2 mb-4 text-sm" style="color: #6B7280;">
+         <div class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" />
+          </svg><span>January 10, 2025</span>
+         </div>
+         <div class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" />
+          </svg><span>University Theater</span>
+         </div>
+        </div><button class="btn-primary w-full py-3 rounded-xl font-semibold" style="color: #0D2347;"> Register Now </button>
+       </div>
+      </div><!-- Event Card 6 -->
+      <div class="event-card rounded-2xl overflow-hidden" style="background: #FFFFFF;">
+       <div class="h-48 flex items-center justify-center" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+        <svg class="w-24 h-24" viewbox="0 0 100 100" fill="none"><circle cx="50" cy="45" r="12" stroke="#C59733" stroke-width="3" /> <path d="M50 57V75M50 75L40 70M50 75L60 70" stroke="#C59733" stroke-width="3" stroke-linecap="round" /> <path d="M35 35L25 25M65 35L75 25" stroke="#C59733" stroke-width="3" stroke-linecap="round" />
+        </svg>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center gap-2 mb-3"><span class="text-xs px-3 py-1 rounded-full font-semibold" style="background: rgba(197, 151, 51, 0.1); color: #C59733;">Sports Society</span>
+        </div>
+        <h3 class="font-heading text-xl font-bold mb-3" style="color: #0D2347;">Inter-College Cricket Tournament</h3>
+        <div class="space-y-2 mb-4 text-sm" style="color: #6B7280;">
+         <div class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" />
+          </svg><span>December 22, 2024</span>
+         </div>
+         <div class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" />
+          </svg><span>University Cricket Ground</span>
+         </div>
+        </div><button class="btn-primary w-full py-3 rounded-xl font-semibold" style="color: #0D2347;"> Register Now </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Page 3: Event Detail & Registration -->
+   <section id="event-detail" class="page-section py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+     <div class="grid lg:grid-cols-2 gap-8"><!-- Left Side: Event Details -->
+      <div>
+       <div class="rounded-2xl overflow-hidden mb-6" style="background: #FFFFFF;">
+        <div class="h-96 flex items-center justify-center" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+         <svg class="w-48 h-48" viewbox="0 0 200 200" fill="none"><rect x="40" y="60" width="120" height="100" rx="8" stroke="#C59733" stroke-width="4" /> <path d="M70 60V40M130 60V40M40 90H160" stroke="#C59733" stroke-width="4" /> <circle cx="80" cy="120" r="6" fill="#C59733" /> <circle cx="120" cy="120" r="6" fill="#C59733" /> <text x="100" y="100" text-anchor="middle" font-size="24" fill="#C59733" font-weight="bold">
+           DEC
+          </text> <text x="100" y="130" text-anchor="middle" font-size="40" fill="#C59733" font-weight="bold">
+           15
+          </text>
+         </svg>
+        </div>
+       </div>
+       <div class="rounded-2xl p-8" style="background: #FFFFFF;">
+        <div class="flex items-center gap-2 mb-4"><span class="text-sm px-4 py-2 rounded-full font-semibold" style="background: rgba(197, 151, 51, 0.1); color: #C59733;">Tech Society</span>
+        </div>
+        <h2 class="font-heading text-3xl md:text-4xl font-bold mb-6" style="color: #0D2347;">Full-Stack Coding Bootcamp</h2>
+        <div class="space-y-4 mb-6">
+         <div class="flex items-start gap-3">
+          <svg class="w-6 h-6 mt-1" fill="#C59733" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" />
+          </svg>
+          <div>
+           <p class="font-semibold" style="color: #0D2347;">December 15, 2024</p>
+           <p class="text-sm" style="color: #6B7280;">9:00 AM - 5:00 PM</p>
+          </div>
+         </div>
+         <div class="flex items-start gap-3">
+          <svg class="w-6 h-6 mt-1" fill="#C59733" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" />
+          </svg>
+          <div>
+           <p class="font-semibold" style="color: #0D2347;">Computer Lab A-Block</p>
+           <p class="text-sm" style="color: #6B7280;">3rd Floor, Engineering Building</p>
+          </div>
+         </div>
+        </div>
+        <div class="border-t pt-6" style="border-color: rgba(197, 151, 51, 0.2);">
+         <h3 class="font-heading text-xl font-bold mb-4" style="color: #0D2347;">Event Description</h3>
+         <p class="leading-relaxed mb-4" style="color: #6B7280;">Join us for an intensive full-stack development workshop covering modern web technologies. Learn React, Node.js, MongoDB, and deployment strategies from industry experts.</p>
+         <p class="leading-relaxed mb-4" style="color: #6B7280;">This hands-on bootcamp is perfect for students who want to build real-world applications and enhance their portfolio. Limited seats available!</p>
+         <h4 class="font-semibold mb-3 mt-6" style="color: #0D2347;">What You'll Learn:</h4>
+         <ul class="space-y-2" style="color: #6B7280;">
+          <li class="flex items-center gap-2">
+           <svg class="w-5 h-5" fill="#C59733" viewbox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+           </svg> Frontend development with React</li>
+          <li class="flex items-center gap-2">
+           <svg class="w-5 h-5" fill="#C59733" viewbox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+           </svg> Backend APIs with Node.js &amp; Express</li>
+          <li class="flex items-center gap-2">
+           <svg class="w-5 h-5" fill="#C59733" viewbox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+           </svg> Database management with MongoDB</li>
+          <li class="flex items-center gap-2">
+           <svg class="w-5 h-5" fill="#C59733" viewbox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+           </svg> Deployment and hosting strategies</li>
+         </ul>
+        </div>
+       </div>
+      </div><!-- Right Side: Registration Form -->
+      <div>
+       <div class="sticky top-24 rounded-2xl p-8 shadow-xl border" style="background: #FFFFFF; border-color: rgba(197, 151, 51, 0.2);">
+        <h3 class="font-heading text-2xl font-bold mb-6" style="color: #0D2347;">Event Registration</h3>
+        <form id="registration-form" class="space-y-5">
+         <div><label for="student-name" class="block text-sm font-semibold mb-2" style="color: #0D2347;">Full Name</label> <input id="student-name" type="text" placeholder="Enter your full name" class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2" style="border-color: rgba(197, 151, 51, 0.3); --tw-ring-color: #C59733;" required>
+         </div>
+         <div><label for="roll-number" class="block text-sm font-semibold mb-2" style="color: #0D2347;">Roll Number</label> <input id="roll-number" type="text" placeholder="e.g., 2024CS001" class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2" style="border-color: rgba(197, 151, 51, 0.3); --tw-ring-color: #C59733;" required>
+         </div>
+         <div><label for="department" class="block text-sm font-semibold mb-2" style="color: #0D2347;">Department</label> <select id="department" class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2" style="border-color: rgba(197, 151, 51, 0.3); --tw-ring-color: #C59733;" required> <option value="">Select Department</option> <option value="cs">Computer Science</option> <option value="ee">Electrical Engineering</option> <option value="me">Mechanical Engineering</option> <option value="ce">Civil Engineering</option> <option value="ba">Business Administration</option> <option value="arts">Arts &amp; Humanities</option> </select>
+         </div>
+         <div><label for="email" class="block text-sm font-semibold mb-2" style="color: #0D2347;">Email Address</label> <input id="email" type="email" placeholder="your.email@university.edu" class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2" style="border-color: rgba(197, 151, 51, 0.3); --tw-ring-color: #C59733;" required>
+         </div>
+         <div><label for="phone" class="block text-sm font-semibold mb-2" style="color: #0D2347;">Phone Number</label> <input id="phone" type="tel" placeholder="+1 (555) 000-0000" class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2" style="border-color: rgba(197, 151, 51, 0.3); --tw-ring-color: #C59733;" required>
+         </div>
+         <div class="border-t pt-5" style="border-color: rgba(197, 151, 51, 0.2);">
+          <div class="flex items-center justify-between mb-4"><span class="font-semibold" style="color: #0D2347;">Registration Fee</span> <span class="text-2xl font-bold" style="color: #C59733;">Free</span>
+          </div><button type="submit" class="btn-primary w-full py-4 rounded-xl font-bold text-lg" style="color: #0D2347;"> Get Ticket </button>
+         </div>
+        </form>
+        <div id="registration-success" class="hidden mt-6 p-4 rounded-xl" style="background: rgba(197, 151, 51, 0.1); border: 2px solid #C59733;">
+         <div class="flex items-center gap-3">
+          <svg class="w-6 h-6" fill="#C59733" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+          </svg>
+          <div>
+           <p class="font-semibold" style="color: #0D2347;">Registration Successful!</p>
+           <p class="text-sm" style="color: #6B7280;">Check your dashboard for QR code</p>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Page 4: Student Dashboard -->
+   <section id="dashboard" class="page-section py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+     <div class="mb-8">
+      <h2 class="font-heading text-3xl md:text-4xl font-bold mb-2" style="color: #0D2347;">My Dashboard</h2>
+      <p class="text-lg" style="color: #6B7280;">Welcome back, Sarah Johnson</p>
+     </div>
+     <div class="grid lg:grid-cols-3 gap-6"><!-- QR Code Card -->
+      <div class="rounded-2xl p-8 text-center shadow-lg" style="background: #FFFFFF;">
+       <h3 class="font-heading text-xl font-bold mb-6" style="color: #0D2347;">My QR Code</h3>
+       <div class="flex justify-center mb-6">
+        <div class="qr-code">
+         <svg viewbox="0 0 100 100" class="w-full h-full p-4"><rect x="10" y="10" width="15" height="15" fill="#0D2347" /> <rect x="30" y="10" width="5" height="5" fill="#0D2347" /> <rect x="40" y="10" width="10" height="10" fill="#0D2347" /> <rect x="55" y="10" width="5" height="5" fill="#0D2347" /> <rect x="75" y="10" width="15" height="15" fill="#0D2347" /> <rect x="10" y="30" width="5" height="5" fill="#0D2347" /> <rect x="20" y="30" width="5" height="10" fill="#0D2347" /> <rect x="30" y="30" width="10" height="5" fill="#0D2347" /> <rect x="45" y="30" width="10" height="10" fill="#0D2347" /> <rect x="60" y="30" width="5" height="5" fill="#0D2347" /> <rect x="75" y="30" width="5" height="5" fill="#0D2347" /> <rect x="85" y="30" width="5" height="10" fill="#0D2347" /> <rect x="10" y="45" width="10" height="10" fill="#0D2347" /> <rect x="25" y="45" width="5" height="5" fill="#0D2347" /> <rect x="35" y="45" width="15" height="10" fill="#0D2347" /> <rect x="55" y="45" width="10" height="5" fill="#0D2347" /> <rect x="70" y="45" width="5" height="10" fill="#0D2347" /> <rect x="80" y="45" width="10" height="10" fill="#0D2347" /> <rect x="10" y="60" width="5" height="10" fill="#0D2347" /> <rect x="20" y="60" width="10" height="5" fill="#0D2347" /> <rect x="35" y="60" width="5" height="10" fill="#0D2347" /> <rect x="45" y="60" width="10" height="5" fill="#0D2347" /> <rect x="60" y="60" width="5" height="10" fill="#0D2347" /> <rect x="70" y="60" width="10" height="5" fill="#0D2347" /> <rect x="85" y="60" width="5" height="10" fill="#0D2347" /> <rect x="10" y="75" width="15" height="15" fill="#0D2347" /> <rect x="30" y="75" width="10" height="5" fill="#0D2347" /> <rect x="45" y="75" width="5" height="15" fill="#0D2347" /> <rect x="55" y="75" width="10" height="10" fill="#0D2347" /> <rect x="75" y="75" width="15" height="15" fill="#0D2347" />
+         </svg>
+        </div>
+       </div>
+       <p class="text-sm mb-4" style="color: #6B7280;">Show this at event check-in</p><button class="text-sm font-semibold" style="color: #C59733;"> View Full Screen </button>
+      </div><!-- Upcoming Events Card -->
+      <div class="rounded-2xl p-8 shadow-lg" style="background: #FFFFFF;">
+       <div class="flex items-center justify-between mb-6">
+        <h3 class="font-heading text-xl font-bold" style="color: #0D2347;">Upcoming Events</h3><span class="text-xs px-3 py-1 rounded-full font-semibold" style="background: rgba(197, 151, 51, 0.1); color: #C59733;">3 Events</span>
+       </div>
+       <div class="space-y-4">
+        <div class="border-l-4 pl-4 py-2" style="border-color: #C59733;">
+         <p class="font-semibold mb-1" style="color: #0D2347;">Full-Stack Coding Bootcamp</p>
+         <p class="text-sm" style="color: #6B7280;">Dec 15, 2024 ��� 9:00 AM</p>
+         <p class="text-xs mt-1" style="color: #C59733;">Computer Lab A-Block</p>
+        </div>
+        <div class="border-l-4 pl-4 py-2" style="border-color: #C59733;">
+         <p class="font-semibold mb-1" style="color: #0D2347;">Battle of the Bands</p>
+         <p class="text-sm" style="color: #6B7280;">Dec 18, 2024 • 6:00 PM</p>
+         <p class="text-xs mt-1" style="color: #C59733;">Open Air Theater</p>
+        </div>
+        <div class="border-l-4 pl-4 py-2" style="border-color: #C59733;">
+         <p class="font-semibold mb-1" style="color: #0D2347;">Annual Art Gala</p>
+         <p class="text-sm" style="color: #6B7280;">Dec 20, 2024 • 5:00 PM</p>
+         <p class="text-xs mt-1" style="color: #C59733;">Main Auditorium</p>
+        </div>
+       </div><button class="w-full mt-6 py-3 rounded-xl font-semibold border-2 transition-all hover:bg-opacity-10" style="border-color: #C59733; color: #C59733;"> View All Events </button>
+      </div><!-- Certificates Card -->
+      <div class="rounded-2xl p-8 shadow-lg" style="background: #FFFFFF;">
+       <div class="flex items-center justify-between mb-6">
+        <h3 class="font-heading text-xl font-bold" style="color: #0D2347;">My Certificates</h3><span class="text-xs px-3 py-1 rounded-full font-semibold" style="background: rgba(197, 151, 51, 0.1); color: #C59733;">5 Earned</span>
+       </div>
+       <div class="space-y-3">
+        <div class="flex items-center justify-between p-4 rounded-xl border" style="border-color: rgba(197, 151, 51, 0.2);">
+         <div class="flex items-center gap-3">
+          <svg class="w-10 h-10" fill="#C59733" viewbox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /> <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+          </svg>
+          <div>
+           <p class="font-semibold text-sm" style="color: #0D2347;">Hackathon 2023</p>
+           <p class="text-xs" style="color: #6B7280;">Tech Society</p>
+          </div>
+         </div><button aria-label="Download certificate" style="color: #C59733;">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" />
+          </svg></button>
+        </div>
+        <div class="flex items-center justify-between p-4 rounded-xl border" style="border-color: rgba(197, 151, 51, 0.2);">
+         <div class="flex items-center gap-3">
+          <svg class="w-10 h-10" fill="#C59733" viewbox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /> <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+          </svg>
+          <div>
+           <p class="font-semibold text-sm" style="color: #0D2347;">Web Dev Workshop</p>
+           <p class="text-xs" style="color: #6B7280;">Tech Society</p>
+          </div>
+         </div><button aria-label="Download certificate" style="color: #C59733;">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" />
+          </svg></button>
+        </div>
+        <div class="flex items-center justify-between p-4 rounded-xl border" style="border-color: rgba(197, 151, 51, 0.2);">
+         <div class="flex items-center gap-3">
+          <svg class="w-10 h-10" fill="#C59733" viewbox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /> <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+          </svg>
+          <div>
+           <p class="font-semibold text-sm" style="color: #0D2347;">Art Exhibition</p>
+           <p class="text-xs" style="color: #6B7280;">Art Society</p>
+          </div>
+         </div><button aria-label="Download certificate" style="color: #C59733;">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" />
+          </svg></button>
+        </div>
+       </div><button class="w-full mt-6 py-3 rounded-xl font-semibold border-2 transition-all hover:bg-opacity-10" style="border-color: #C59733; color: #C59733;"> View All Certificates </button>
+      </div>
+     </div>
+    </div>
+   </section><!-- Page 5: Admin Dashboard -->
+   <section id="admin" class="page-section py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+     <div class="grid lg:grid-cols-4 gap-6"><!-- Sidebar -->
+      <div class="lg:col-span-1">
+       <div class="rounded-2xl p-6 shadow-lg" style="background: #FFFFFF;">
+        <h3 class="font-heading text-lg font-bold mb-4" style="color: #0D2347;">Admin Menu</h3>
+        <nav class="space-y-2"><a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all" style="background: rgba(197, 151, 51, 0.1); color: #C59733;">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+          </svg> Overview </a> <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all hover:bg-opacity-10" style="color: #6B7280;">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /> <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" />
+          </svg> Events </a> <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all hover:bg-opacity-10" style="color: #6B7280;">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+          </svg> Volunteers </a> <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all hover:bg-opacity-10" style="color: #6B7280;">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M2.94 6.412A2 2 0 002 8.108V16a2 2 0 002 2h12a2 2 0 002-2V8.108a2 2 0 00-.94-1.696l-6-3.75a2 2 0 00-2.12 0l-6 3.75zm2.615 2.423a1 1 0 10-1.11 1.664l5 3.333a1 1 0 001.11 0l5-3.333a1 1 0 00-1.11-1.664L10 11.798 5.555 8.835z" />
+          </svg> Communications </a> <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all hover:bg-opacity-10" style="color: #6B7280;">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" />
+          </svg> Settings </a>
+        </nav>
+       </div>
+      </div><!-- Main Content -->
+      <div class="lg:col-span-3 space-y-6"><!-- Stats Cards -->
+       <div class="grid md:grid-cols-3 gap-4">
+        <div class="rounded-2xl p-6 shadow-lg" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+         <p class="text-sm mb-2" style="color: rgba(255, 255, 255, 0.7);">Total Registrations</p>
+         <p class="text-3xl font-bold" style="color: #C59733;">1,247</p>
+        </div>
+        <div class="rounded-2xl p-6 shadow-lg" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+         <p class="text-sm mb-2" style="color: rgba(255, 255, 255, 0.7);">Active Events</p>
+         <p class="text-3xl font-bold" style="color: #C59733;">12</p>
+        </div>
+        <div class="rounded-2xl p-6 shadow-lg" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+         <p class="text-sm mb-2" style="color: rgba(255, 255, 255, 0.7);">Volunteers</p>
+         <p class="text-3xl font-bold" style="color: #C59733;">56</p>
+        </div>
+       </div><!-- Ticket Sales Chart -->
+       <div class="rounded-2xl p-6 shadow-lg" style="background: #FFFFFF;">
+        <h3 class="font-heading text-xl font-bold mb-6" style="color: #0D2347;">Ticket Sales Analytics</h3>
+        <div class="h-64 flex items-end justify-between gap-2">
+         <div class="flex-1 flex flex-col items-center">
+          <div class="chart-bar w-full rounded-t-lg" style="height: 60%; background: #C59733;"></div>
+          <p class="text-xs mt-2" style="color: #6B7280;">Mon</p>
+         </div>
+         <div class="flex-1 flex flex-col items-center">
+          <div class="chart-bar w-full rounded-t-lg" style="height: 45%; background: #C59733;"></div>
+          <p class="text-xs mt-2" style="color: #6B7280;">Tue</p>
+         </div>
+         <div class="flex-1 flex flex-col items-center">
+          <div class="chart-bar w-full rounded-t-lg" style="height: 80%; background: #C59733;"></div>
+          <p class="text-xs mt-2" style="color: #6B7280;">Wed</p>
+         </div>
+         <div class="flex-1 flex flex-col items-center">
+          <div class="chart-bar w-full rounded-t-lg" style="height: 55%; background: #C59733;"></div>
+          <p class="text-xs mt-2" style="color: #6B7280;">Thu</p>
+         </div>
+         <div class="flex-1 flex flex-col items-center">
+          <div class="chart-bar w-full rounded-t-lg" style="height: 95%; background: #C59733;"></div>
+          <p class="text-xs mt-2" style="color: #6B7280;">Fri</p>
+         </div>
+         <div class="flex-1 flex flex-col items-center">
+          <div class="chart-bar w-full rounded-t-lg" style="height: 70%; background: #C59733;"></div>
+          <p class="text-xs mt-2" style="color: #6B7280;">Sat</p>
+         </div>
+         <div class="flex-1 flex flex-col items-center">
+          <div class="chart-bar w-full rounded-t-lg" style="height: 40%; background: #C59733;"></div>
+          <p class="text-xs mt-2" style="color: #6B7280;">Sun</p>
+         </div>
+        </div>
+       </div><!-- Volunteer Management Table -->
+       <div class="rounded-2xl p-6 shadow-lg" style="background: #FFFFFF;">
+        <div class="flex items-center justify-between mb-6">
+         <h3 class="font-heading text-xl font-bold" style="color: #0D2347;">Volunteer Management</h3><button class="btn-primary px-4 py-2 rounded-lg text-sm font-semibold" style="color: #0D2347;"> Add Volunteer </button>
+        </div>
+        <div class="overflow-x-auto">
+         <table class="w-full">
+          <thead>
+           <tr class="border-b" style="border-color: rgba(197, 151, 51, 0.2);">
+            <th class="text-left py-3 px-4 font-semibold text-sm" style="color: #0D2347;">Name</th>
+            <th class="text-left py-3 px-4 font-semibold text-sm" style="color: #0D2347;">Task</th>
+            <th class="text-left py-3 px-4 font-semibold text-sm" style="color: #0D2347;">Event</th>
+            <th class="text-left py-3 px-4 font-semibold text-sm" style="color: #0D2347;">Status</th>
+            <th class="text-left py-3 px-4 font-semibold text-sm" style="color: #0D2347;">Actions</th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr class="border-b" style="border-color: rgba(197, 151, 51, 0.1);">
+            <td class="py-3 px-4" style="color: #0D2347;">John Doe</td>
+            <td class="py-3 px-4" style="color: #6B7280;">Registration Desk</td>
+            <td class="py-3 px-4" style="color: #6B7280;">Coding Bootcamp</td>
+            <td class="py-3 px-4"><span class="text-xs px-3 py-1 rounded-full font-semibold" style="background: rgba(34, 197, 94, 0.1); color: #22C55E;">Confirmed</span></td>
+            <td class="py-3 px-4"><button class="text-sm font-semibold" style="color: #C59733;">Edit</button></td>
+           </tr>
+           <tr class="border-b" style="border-color: rgba(197, 151, 51, 0.1);">
+            <td class="py-3 px-4" style="color: #0D2347;">Emma Wilson</td>
+            <td class="py-3 px-4" style="color: #6B7280;">Technical Support</td>
+            <td class="py-3 px-4" style="color: #6B7280;">Coding Bootcamp</td>
+            <td class="py-3 px-4"><span class="text-xs px-3 py-1 rounded-full font-semibold" style="background: rgba(34, 197, 94, 0.1); color: #22C55E;">Confirmed</span></td>
+            <td class="py-3 px-4"><button class="text-sm font-semibold" style="color: #C59733;">Edit</button></td>
+           </tr>
+           <tr class="border-b" style="border-color: rgba(197, 151, 51, 0.1);">
+            <td class="py-3 px-4" style="color: #0D2347;">Mike Johnson</td>
+            <td class="py-3 px-4" style="color: #6B7280;">Stage Management</td>
+            <td class="py-3 px-4" style="color: #6B7280;">Battle of Bands</td>
+            <td class="py-3 px-4"><span class="text-xs px-3 py-1 rounded-full font-semibold" style="background: rgba(251, 191, 36, 0.1); color: #F59E0B;">Pending</span></td>
+            <td class="py-3 px-4"><button class="text-sm font-semibold" style="color: #C59733;">Edit</button></td>
+           </tr>
+           <tr>
+            <td class="py-3 px-4" style="color: #0D2347;">Sarah Lee</td>
+            <td class="py-3 px-4" style="color: #6B7280;">Hospitality</td>
+            <td class="py-3 px-4" style="color: #6B7280;">Art Gala</td>
+            <td class="py-3 px-4"><span class="text-xs px-3 py-1 rounded-full font-semibold" style="background: rgba(34, 197, 94, 0.1); color: #22C55E;">Confirmed</span></td>
+            <td class="py-3 px-4"><button class="text-sm font-semibold" style="color: #C59733;">Edit</button></td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+       </div><!-- Email Communication -->
+       <div class="rounded-2xl p-6 shadow-lg" style="background: #FFFFFF;">
+        <h3 class="font-heading text-xl font-bold mb-4" style="color: #0D2347;">Mass Communication</h3>
+        <p class="text-sm mb-4" style="color: #6B7280;">Send automated emails to event participants</p>
+        <div class="flex flex-col sm:flex-row gap-3"><button class="btn-primary px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2" style="color: #0D2347;">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M2.94 6.412A2 2 0 002 8.108V16a2 2 0 002 2h12a2 2 0 002-2V8.108a2 2 0 00-.94-1.696l-6-3.75a2 2 0 00-2.12 0l-6 3.75zm2.615 2.423a1 1 0 10-1.11 1.664l5 3.333a1 1 0 001.11 0l5-3.333a1 1 0 00-1.11-1.664L10 11.798 5.555 8.835z" />
+          </svg> Send Event Reminders </button> <button class="px-6 py-3 rounded-xl font-semibold border-2 transition-all hover:bg-opacity-10 flex items-center justify-center gap-2" style="border-color: #C59733; color: #C59733;">
+          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /> <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+          </svg> Send Certificates </button>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Page 6: Past Event Archive -->
+   <section id="archive" class="page-section py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+     <div class="text-center mb-12">
+      <h2 class="font-heading text-4xl md:text-5xl font-bold mb-4" style="color: #0D2347;">Event Archive</h2>
+      <p class="text-lg" style="color: #6B7280;">Relive memories from our past events</p>
+     </div>
+     <div class="masonry-grid"><!-- Gallery Item 1 -->
+      <div class="masonry-item">
+       <div style="height: 300px; background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%); display: flex; align-items: center; justify-content: center;">
+        <svg class="w-32 h-32" viewbox="0 0 100 100" fill="none"><rect x="20" y="30" width="60" height="45" rx="4" stroke="#C59733" stroke-width="3" /> <circle cx="35" cy="50" r="8" stroke="#C59733" stroke-width="2" /> <path d="M60 60L70 50L80 60" stroke="#C59733" stroke-width="2" fill="none" />
+        </svg>
+       </div>
+       <div class="masonry-overlay">
+        <div class="text-center px-4">
+         <p class="font-heading text-xl font-bold mb-2" style="color: #FFFFFF;">Tech Fest 2023</p><button class="btn-primary px-6 py-2 rounded-lg font-semibold" style="color: #0D2347;"> View Highlights </button>
+        </div>
+       </div>
+      </div><!-- Gallery Item 2 -->
+      <div class="masonry-item">
+       <div style="height: 250px; background: linear-gradient(135deg, #1a3a6b 0%, #0D2347 100%); display: flex; align-items: center; justify-content: center;">
+        <svg class="w-32 h-32" viewbox="0 0 100 100" fill="none"><path d="M30 70L50 30L70 70H30Z" stroke="#C59733" stroke-width="3" /> <circle cx="50" cy="45" r="6" fill="#C59733" />
+        </svg>
+       </div>
+       <div class="masonry-overlay">
+        <div class="text-center px-4">
+         <p class="font-heading text-xl font-bold mb-2" style="color: #FFFFFF;">Art Exhibition 2023</p><button class="btn-primary px-6 py-2 rounded-lg font-semibold" style="color: #0D2347;"> View Highlights </button>
+        </div>
+       </div>
+      </div><!-- Gallery Item 3 -->
+      <div class="masonry-item">
+       <div style="height: 350px; background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%); display: flex; align-items: center; justify-content: center;">
+        <svg class="w-32 h-32" viewbox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="25" stroke="#C59733" stroke-width="3" /> <path d="M40 45L48 53L62 39" stroke="#C59733" stroke-width="3" stroke-linecap="round" />
+        </svg>
+       </div>
+       <div class="masonry-overlay">
+        <div class="text-center px-4">
+         <p class="font-heading text-xl font-bold mb-2" style="color: #FFFFFF;">Sports Meet 2023</p><button class="btn-primary px-6 py-2 rounded-lg font-semibold" style="color: #0D2347;"> View Highlights </button>
+        </div>
+       </div>
+      </div><!-- Gallery Item 4 -->
+      <div class="masonry-item">
+       <div style="height: 280px; background: linear-gradient(135deg, #1a3a6b 0%, #0D2347 100%); display: flex; align-items: center; justify-content: center;">
+        <svg class="w-32 h-32" viewbox="0 0 100 100" fill="none"><path d="M30 70Q50 50 70 70" stroke="#C59733" stroke-width="3" fill="none" /> <circle cx="35" cy="65" r="4" fill="#C59733" /> <circle cx="50" cy="55" r="4" fill="#C59733" /> <circle cx="65" cy="65" r="4" fill="#C59733" />
+        </svg>
+       </div>
+       <div class="masonry-overlay">
+        <div class="text-center px-4">
+         <p class="font-heading text-xl font-bold mb-2" style="color: #FFFFFF;">Music Concert 2023</p><button class="btn-primary px-6 py-2 rounded-lg font-semibold" style="color: #0D2347;"> View Highlights </button>
+        </div>
+       </div>
+      </div><!-- Gallery Item 5 -->
+      <div class="masonry-item">
+       <div style="height: 320px; background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%); display: flex; align-items: center; justify-content: center;">
+        <svg class="w-32 h-32" viewbox="0 0 100 100" fill="none"><rect x="35" y="30" width="30" height="40" rx="3" stroke="#C59733" stroke-width="3" /> <circle cx="45" cy="45" r="3" fill="#C59733" /> <circle cx="55" cy="45" r="3" fill="#C59733" /> <path d="M42 58Q50 62 58 58" stroke="#C59733" stroke-width="2" fill="none" />
+        </svg>
+       </div>
+       <div class="masonry-overlay">
+        <div class="text-center px-4">
+         <p class="font-heading text-xl font-bold mb-2" style="color: #FFFFFF;">Drama Night 2023</p><button class="btn-primary px-6 py-2 rounded-lg font-semibold" style="color: #0D2347;"> View Highlights </button>
+        </div>
+       </div>
+      </div><!-- Gallery Item 6 -->
+      <div class="masonry-item">
+       <div style="height: 260px; background: linear-gradient(135deg, #1a3a6b 0%, #0D2347 100%); display: flex; align-items: center; justify-content: center;">
+        <svg class="w-32 h-32" viewbox="0 0 100 100" fill="none"><path d="M50 20L30 80L70 80Z" stroke="#C59733" stroke-width="3" /> <circle cx="50" cy="50" r="8" fill="#C59733" />
+        </svg>
+       </div>
+       <div class="masonry-overlay">
+        <div class="text-center px-4">
+         <p class="font-heading text-xl font-bold mb-2" style="color: #FFFFFF;">Cultural Fest 2023</p><button class="btn-primary px-6 py-2 rounded-lg font-semibold" style="color: #0D2347;"> View Highlights </button>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Page 7: About Us -->
+   <section id="about" class="page-section py-16 px-6">
+    <div class="max-w-6xl mx-auto">
+     <div class="text-center mb-12">
+      <h2 class="font-heading text-4xl md:text-5xl font-bold mb-4" style="color: #0D2347;">About Al-Kawthar Event Management Society</h2>
+      <p class="text-lg max-w-3xl mx-auto" style="color: #6B7280;">Empowering student communities through exceptional event experiences since 2020</p>
+     </div><!-- Mission & Vision -->
+     <div class="grid md:grid-cols-2 gap-8 mb-16">
+      <div class="rounded-2xl p-8 shadow-lg" style="background: #FFFFFF;">
+       <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6" style="background: rgba(197, 151, 51, 0.1);">
+        <svg class="w-8 h-8" fill="#C59733" viewbox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+        </svg>
+       </div>
+       <h3 class="font-heading text-2xl font-bold mb-4" style="color: #0D2347;">Our Mission</h3>
+       <p class="leading-relaxed" style="color: #6B7280;">To create a vibrant campus culture by organizing meaningful events that foster learning, creativity, and community engagement. We strive to provide students with opportunities to explore their passions, develop new skills, and build lasting connections.</p>
+      </div>
+      <div class="rounded-2xl p-8 shadow-lg" style="background: #FFFFFF;">
+       <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6" style="background: rgba(197, 151, 51, 0.1);">
+        <svg class="w-8 h-8" fill="#C59733" viewbox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /> <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+       </div>
+       <h3 class="font-heading text-2xl font-bold mb-4" style="color: #0D2347;">Our Vision</h3>
+       <p class="leading-relaxed" style="color: #6B7280;">To be the leading student-run event management organization that sets the standard for excellence in university programming. We envision a campus where every student has access to diverse, high-quality events that enrich their university experience.</p>
+      </div>
+     </div><!-- What We Do -->
+     <div class="rounded-2xl p-8 md:p-12 mb-16" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+      <h3 class="font-heading text-3xl font-bold mb-8 text-center" style="color: #FFFFFF;">What We Do</h3>
+      <div class="grid md:grid-cols-3 gap-8">
+       <div class="text-center">
+        <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4" style="background: rgba(197, 151, 51, 0.2);">
+         <svg class="w-10 h-10" fill="#C59733" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" />
+         </svg>
+        </div>
+        <h4 class="font-heading text-xl font-bold mb-3" style="color: #C59733;">Event Planning</h4>
+        <p class="text-sm leading-relaxed" style="color: rgba(255, 255, 255, 0.8);">Comprehensive planning and execution of workshops, seminars, cultural festivals, and social gatherings</p>
+       </div>
+       <div class="text-center">
+        <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4" style="background: rgba(197, 151, 51, 0.2);">
+         <svg class="w-10 h-10" fill="#C59733" viewbox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+         </svg>
+        </div>
+        <h4 class="font-heading text-xl font-bold mb-3" style="color: #C59733;">Society Collaboration</h4>
+        <p class="text-sm leading-relaxed" style="color: rgba(255, 255, 255, 0.8);">Supporting and coordinating with 50+ campus societies to bring their visions to life</p>
+       </div>
+       <div class="text-center">
+        <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4" style="background: rgba(197, 151, 51, 0.2);">
+         <svg class="w-10 h-10" fill="#C59733" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" />
+         </svg>
+        </div>
+        <h4 class="font-heading text-xl font-bold mb-3" style="color: #C59733;">Student Support</h4>
+        <p class="text-sm leading-relaxed" style="color: rgba(255, 255, 255, 0.8);">Providing resources, training, and mentorship for students interested in event management</p>
+       </div>
+      </div>
+     </div><!-- Our Team -->
+     <div class="mb-16">
+      <h3 class="font-heading text-3xl font-bold mb-8 text-center" style="color: #0D2347;">Meet Our Leadership Team</h3>
+      <div class="grid md:grid-cols-4 gap-6">
+       <div class="rounded-2xl p-6 text-center shadow-lg" style="background: #FFFFFF;">
+        <div class="w-24 h-24 rounded-full mx-auto mb-4 flex items-center justify-center" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+         <svg class="w-12 h-12" fill="#C59733" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
+         </svg>
+        </div>
+        <h4 class="font-heading text-lg font-bold mb-1" style="color: #0D2347;">Ahmed Hassan</h4>
+        <p class="text-sm mb-2" style="color: #C59733;">President</p>
+        <p class="text-xs" style="color: #6B7280;">Computer Science</p>
+       </div>
+       <div class="rounded-2xl p-6 text-center shadow-lg" style="background: #FFFFFF;">
+        <div class="w-24 h-24 rounded-full mx-auto mb-4 flex items-center justify-center" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+         <svg class="w-12 h-12" fill="#C59733" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
+         </svg>
+        </div>
+        <h4 class="font-heading text-lg font-bold mb-1" style="color: #0D2347;">Fatima Khan</h4>
+        <p class="text-sm mb-2" style="color: #C59733;">Vice President</p>
+        <p class="text-xs" style="color: #6B7280;">Business Admin</p>
+       </div>
+       <div class="rounded-2xl p-6 text-center shadow-lg" style="background: #FFFFFF;">
+        <div class="w-24 h-24 rounded-full mx-auto mb-4 flex items-center justify-center" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+         <svg class="w-12 h-12" fill="#C59733" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
+         </svg>
+        </div>
+        <h4 class="font-heading text-lg font-bold mb-1" style="color: #0D2347;">Omar Ali</h4>
+        <p class="text-sm mb-2" style="color: #C59733;">Event Coordinator</p>
+        <p class="text-xs" style="color: #6B7280;">Engineering</p>
+       </div>
+       <div class="rounded-2xl p-6 text-center shadow-lg" style="background: #FFFFFF;">
+        <div class="w-24 h-24 rounded-full mx-auto mb-4 flex items-center justify-center" style="background: linear-gradient(135deg, #0D2347 0%, #1a3a6b 100%);">
+         <svg class="w-12 h-12" fill="#C59733" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
+         </svg>
+        </div>
+        <h4 class="font-heading text-lg font-bold mb-1" style="color: #0D2347;">Zainab Ahmed</h4>
+        <p class="text-sm mb-2" style="color: #C59733;">Marketing Director</p>
+        <p class="text-xs" style="color: #6B7280;">Communications</p>
+       </div>
+      </div>
+     </div><!-- Join Us CTA -->
+     <div class="rounded-2xl p-8 md:p-12 text-center" style="background: rgba(197, 151, 51, 0.1); border: 2px solid #C59733;">
+      <h3 class="font-heading text-3xl font-bold mb-4" style="color: #0D2347;">Join Our Team</h3>
+      <p class="text-lg mb-6 max-w-2xl mx-auto" style="color: #6B7280;">We're always looking for passionate students to join our team. Whether you're interested in planning, design, marketing, or operations, there's a place for you!</p><button class="btn-primary px-8 py-4 rounded-xl font-semibold text-lg" style="color: #0D2347;"> Apply Now </button>
+     </div>
+    </div>
+   </section><!-- Page 8: Contact Us -->
+   <section id="contact" class="page-section py-16 px-6">
+    <div class="max-w-6xl mx-auto">
+     <div class="text-center mb-12">
+      <h2 class="font-heading text-4xl md:text-5xl font-bold mb-4" style="color: #0D2347;">Get In Touch</h2>
+      <p class="text-lg" style="color: #6B7280;">Have questions? We'd love to hear from you</p>
+     </div>
+     <div class="grid lg:grid-cols-2 gap-8"><!-- Contact Form -->
+      <div class="rounded-2xl p-8 shadow-lg" style="background: #FFFFFF;">
+       <h3 class="font-heading text-2xl font-bold mb-6" style="color: #0D2347;">Send Us a Message</h3>
+       <form id="contact-form" class="space-y-5">
+        <div><label for="contact-name" class="block text-sm font-semibold mb-2" style="color: #0D2347;">Your Name</label> <input id="contact-name" type="text" placeholder="Enter your full name" class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2" style="border-color: rgba(197, 151, 51, 0.3); --tw-ring-color: #C59733;" required>
+        </div>
+        <div><label for="contact-email" class="block text-sm font-semibold mb-2" style="color: #0D2347;">Email Address</label> <input id="contact-email" type="email" placeholder="your.email@university.edu" class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2" style="border-color: rgba(197, 151, 51, 0.3); --tw-ring-color: #C59733;" required>
+        </div>
+        <div><label for="contact-subject" class="block text-sm font-semibold mb-2" style="color: #0D2347;">Subject</label> <select id="contact-subject" class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2" style="border-color: rgba(197, 151, 51, 0.3); --tw-ring-color: #C59733;" required> <option value="">Select a subject</option> <option value="event-inquiry">Event Inquiry</option> <option value="collaboration">Collaboration Proposal</option> <option value="volunteer">Volunteer Application</option> <option value="feedback">Feedback</option> <option value="other">Other</option> </select>
+        </div>
+        <div><label for="contact-message" class="block text-sm font-semibold mb-2" style="color: #0D2347;">Message</label> <textarea id="contact-message" rows="5" placeholder="Tell us more about your inquiry..." class="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2" style="border-color: rgba(197, 151, 51, 0.3); --tw-ring-color: #C59733;" required></textarea>
+        </div><button type="submit" class="btn-primary w-full py-4 rounded-xl font-bold text-lg" style="color: #0D2347;"> Send Message </button>
+       </form>
+       <div id="contact-success" class="hidden mt-6 p-4 rounded-xl" style="background: rgba(197, 151, 51, 0.1); border: 2px solid #C59733;">
+        <div class="flex items-center gap-3">
+         <svg class="w-6 h-6" fill="#C59733" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+         </svg>
+         <div>
+          <p class="font-semibold" style="color: #0D2347;">Message Sent!</p>
+          <p class="text-sm" style="color: #6B7280;">We'll get back to you within 24 hours</p>
+         </div>
+        </div>
+       </div>
+      </div><!-- Contact Information -->
+      <div class="space-y-6"><!-- Office Location -->
+       <div class="rounded-2xl p-8 shadow-lg" style="background: #FFFFFF;">
+        <div class="flex items-start gap-4">
+         <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(197, 151, 51, 0.1);">
+          <svg class="w-6 h-6" fill="#C59733" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" />
+          </svg>
+         </div>
+         <div>
+          <h4 class="font-heading text-lg font-bold mb-2" style="color: #0D2347;">Office Location</h4>
+          <p style="color: #6B7280;">Student Union Building, Room 302</p>
+          <p style="color: #6B7280;">University Campus</p>
+          <p style="color: #6B7280;">Main Street, City 12345</p>
+         </div>
+        </div>
+       </div><!-- Email -->
+       <div class="rounded-2xl p-8 shadow-lg" style="background: #FFFFFF;">
+        <div class="flex items-start gap-4">
+         <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(197, 151, 51, 0.1);">
+          <svg class="w-6 h-6" fill="#C59733" viewbox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /> <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+          </svg>
+         </div>
+         <div>
+          <h4 class="font-heading text-lg font-bold mb-2" style="color: #0D2347;">Email Us</h4><a href="mailto:info@alkawthar-events.edu" class="hover:underline" style="color: #C59733;">info@alkawthar-events.edu</a>
+          <p class="mt-1" style="color: #6B7280;">We reply within 24 hours</p>
+         </div>
+        </div>
+       </div><!-- Phone -->
+       <div class="rounded-2xl p-8 shadow-lg" style="background: #FFFFFF;">
+        <div class="flex items-start gap-4">
+         <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(197, 151, 51, 0.1);">
+          <svg class="w-6 h-6" fill="#C59733" viewbox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+          </svg>
+         </div>
+         <div>
+          <h4 class="font-heading text-lg font-bold mb-2" style="color: #0D2347;">Call Us</h4><a href="tel:+15551234567" class="hover:underline" style="color: #C59733;">+1 (555) 123-4567</a>
+          <p class="mt-1" style="color: #6B7280;">Mon-Fri: 9:00 AM - 5:00 PM</p>
+         </div>
+        </div>
+       </div><!-- Social Media -->
+       <div class="rounded-2xl p-8 shadow-lg" style="background: #FFFFFF;">
+        <h4 class="font-heading text-lg font-bold mb-4" style="color: #0D2347;">Follow Us</h4>
+        <div class="flex gap-4"><a href="#" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110" style="background: rgba(197, 151, 51, 0.1);" aria-label="Facebook">
+          <svg class="w-5 h-5" fill="#C59733" viewbox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+          </svg></a> <a href="#" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110" style="background: rgba(197, 151, 51, 0.1);" aria-label="Instagram">
+          <svg class="w-5 h-5" fill="#C59733" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+          </svg></a> <a href="#" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110" style="background: rgba(197, 151, 51, 0.1);" aria-label="Twitter">
+          <svg class="w-5 h-5" fill="#C59733" viewbox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+          </svg></a> <a href="#" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110" style="background: rgba(197, 151, 51, 0.1);" aria-label="LinkedIn">
+          <svg class="w-5 h-5" fill="#C59733" viewbox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+          </svg></a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Page 9: Mobile QR Check-in -->
+   <section id="mobile" class="page-section min-h-screen flex items-center justify-center px-6" style="background: #FFFFFF;">
+    <div class="max-w-md mx-auto text-center">
+     <div class="mb-8">
+      <svg class="w-16 h-16 mx-auto mb-4" viewbox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#C59733" /> <path d="M20 10L12 16V30H18V24H22V30H28V16L20 10Z" fill="#0D2347" />
+      </svg>
+      <h2 class="font-heading text-3xl font-bold mb-2" style="color: #0D2347;">Quick Check-In</h2>
+      <p style="color: #6B7280;">Show this QR code at the venue</p>
+     </div>
+     <div class="flex justify-center mb-8">
+      <div class="qr-code">
+       <svg viewbox="0 0 100 100" class="w-full h-full p-4"><rect x="10" y="10" width="15" height="15" fill="#0D2347" /> <rect x="30" y="10" width="5" height="5" fill="#0D2347" /> <rect x="40" y="10" width="10" height="10" fill="#0D2347" /> <rect x="55" y="10" width="5" height="5" fill="#0D2347" /> <rect x="75" y="10" width="15" height="15" fill="#0D2347" /> <rect x="10" y="30" width="5" height="5" fill="#0D2347" /> <rect x="20" y="30" width="5" height="10" fill="#0D2347" /> <rect x="30" y="30" width="10" height="5" fill="#0D2347" /> <rect x="45" y="30" width="10" height="10" fill="#0D2347" /> <rect x="60" y="30" width="5" height="5" fill="#0D2347" /> <rect x="75" y="30" width="5" height="5" fill="#0D2347" /> <rect x="85" y="30" width="5" height="10" fill="#0D2347" /> <rect x="10" y="45" width="10" height="10" fill="#0D2347" /> <rect x="25" y="45" width="5" height="5" fill="#0D2347" /> <rect x="35" y="45" width="15" height="10" fill="#0D2347" /> <rect x="55" y="45" width="10" height="5" fill="#0D2347" /> <rect x="70" y="45" width="5" height="10" fill="#0D2347" /> <rect x="80" y="45" width="10" height="10" fill="#0D2347" /> <rect x="10" y="60" width="5" height="10" fill="#0D2347" /> <rect x="20" y="60" width="10" height="5" fill="#0D2347" /> <rect x="35" y="60" width="5" height="10" fill="#0D2347" /> <rect x="45" y="60" width="10" height="5" fill="#0D2347" /> <rect x="60" y="60" width="5" height="10" fill="#0D2347" /> <rect x="70" y="60" width="10" height="5" fill="#0D2347" /> <rect x="85" y="60" width="5" height="10" fill="#0D2347" /> <rect x="10" y="75" width="15" height="15" fill="#0D2347" /> <rect x="30" y="75" width="10" height="5" fill="#0D2347" /> <rect x="45" y="75" width="5" height="15" fill="#0D2347" /> <rect x="55" y="75" width="10" height="10" fill="#0D2347" /> <rect x="75" y="75" width="15" height="15" fill="#0D2347" />
+       </svg>
+      </div>
+     </div>
+     <div class="rounded-2xl p-6 mb-6" style="background: rgba(197, 151, 51, 0.1);">
+      <p class="font-semibold mb-2" style="color: #0D2347;">Sarah Johnson</p>
+      <p class="text-sm" style="color: #6B7280;">Roll No: 2024CS042</p>
+      <p class="text-sm" style="color: #6B7280;">Computer Science</p>
+     </div>
+     <div class="space-y-3">
+      <div class="flex items-center justify-between p-4 rounded-xl" style="background: #F8F9FA;">
+       <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(197, 151, 51, 0.2);">
+         <svg class="w-5 h-5" fill="#C59733" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" />
+         </svg>
+        </div>
+        <div class="text-left">
+         <p class="font-semibold text-sm" style="color: #0D2347;">Next Event</p>
+         <p class="text-xs" style="color: #6B7280;">Coding Bootcamp - Dec 15</p>
+        </div>
+       </div><span class="text-xs px-3 py-1 rounded-full font-semibold" style="background: rgba(197, 151, 51, 0.1); color: #C59733;">Registered</span>
+      </div>
+     </div>
+     <p class="text-sm mt-8" style="color: #6B7280;">Scan this code at the registration desk for instant check-in</p>
+    </div>
+   </section>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      site_name: 'Al-Kawthar Event Management Society',
+      hero_headline: 'Uniting Societies, Creating Memories',
+      hero_subheadline: 'Discover, register, and manage all campus events in one place',
+      cta_button_text: 'Register Now',
+      background_color: '#F8F9FA',
+      primary_color: '#0D2347',
+      accent_color: '#C59733',
+      text_color: '#0D2347',
+      secondary_text_color: '#6B7280'
+    };
+
+    let config = { ...defaultConfig };
+
+    // Config change handler
+    async function onConfigChange(newConfig) {
+      config = { ...defaultConfig, ...newConfig };
+
+      // Update site name
+      const siteName = document.getElementById('site-name');
+      if (siteName) siteName.textContent = config.site_name;
+
+      // Update hero content
+      const heroHeadline = document.getElementById('hero-headline');
+      if (heroHeadline) heroHeadline.textContent = config.hero_headline;
+
+      const heroSubheadline = document.getElementById('hero-subheadline');
+      if (heroSubheadline) heroSubheadline.textContent = config.hero_subheadline;
+
+      // Update CTA buttons
+      const ctaButton1 = document.getElementById('cta-button-1');
+      if (ctaButton1) ctaButton1.textContent = config.cta_button_text;
+
+      // Apply colors
+      document.body.style.background = config.background_color;
+    }
+
+    // Map to capabilities
+    function mapToCapabilities(cfg) {
+      return {
+        recolorables: [
+          {
+            get: () => cfg.background_color || defaultConfig.background_color,
+            set: (value) => {
+              cfg.background_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => cfg.primary_color || defaultConfig.primary_color,
+            set: (value) => {
+              cfg.primary_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ primary_color: value });
+            }
+          },
+          {
+            get: () => cfg.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              cfg.accent_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ accent_color: value });
+            }
+          },
+          {
+            get: () => cfg.text_color || defaultConfig.text_color,
+            set: (value) => {
+              cfg.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => cfg.secondary_text_color || defaultConfig.secondary_text_color,
+            set: (value) => {
+              cfg.secondary_text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ secondary_text_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    // Map to edit panel values
+    function mapToEditPanelValues(cfg) {
+      return new Map([
+        ['site_name', cfg.site_name || defaultConfig.site_name],
+        ['hero_headline', cfg.hero_headline || defaultConfig.hero_headline],
+        ['hero_subheadline', cfg.hero_subheadline || defaultConfig.hero_subheadline],
+        ['cta_button_text', cfg.cta_button_text || defaultConfig.cta_button_text]
+      ]);
+    }
+
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    // Mobile menu toggle
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuToggle && mobileMenu) {
+      mobileMenuToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+
+    // Page navigation
+    document.querySelectorAll('[data-page]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetPage = this.getAttribute('data-page');
+        
+        // Close mobile menu if open
+        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.add('hidden');
+        }
+        
+        // Update active nav link
+        document.querySelectorAll('.nav-link').forEach(navLink => {
+          navLink.classList.remove('active');
+        });
+        this.classList.add('active');
+        
+        // Show target page
+        document.querySelectorAll('.page-section').forEach(section => {
+          section.classList.remove('active');
+        });
+        document.getElementById(targetPage).classList.add('active');
+        
+        // Scroll to top
+        document.getElementById('app-wrapper').scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Event registration button clicks to navigate to detail page
+    document.querySelectorAll('.event-card button').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Navigate to event detail page
+        document.querySelectorAll('.page-section').forEach(section => {
+          section.classList.remove('active');
+        });
+        document.getElementById('event-detail').classList.add('active');
+        
+        document.getElementById('app-wrapper').scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Registration form submission
+    document.getElementById('registration-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const successMsg = document.getElementById('registration-success');
+      
+      submitBtn.textContent = 'Processing...';
+      submitBtn.disabled = true;
+      
+      setTimeout(() => {
+        submitBtn.textContent = 'Registered!';
+        successMsg.classList.remove('hidden');
+        
+        setTimeout(() => {
+          this.reset();
+          submitBtn.textContent = 'Get Ticket';
+          submitBtn.disabled = false;
+        }, 3000);
+      }, 1500);
+    });
+
+    // Contact form submission
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const successMsg = document.getElementById('contact-success');
+        
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+        
+        setTimeout(() => {
+          submitBtn.textContent = 'Message Sent!';
+          successMsg.classList.remove('hidden');
+          
+          setTimeout(() => {
+            this.reset();
+            submitBtn.textContent = 'Send Message';
+            submitBtn.disabled = false;
+            successMsg.classList.add('hidden');
+          }, 4000);
+        }, 1500);
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c049e9257a0e8c7',t:'MTc2ODgwNzc0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
